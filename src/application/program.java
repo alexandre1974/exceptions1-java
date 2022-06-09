@@ -6,15 +6,16 @@ import java.util.Date;
 import java.util.Scanner;
 
 import model.entities.Resevation;
+import model.exceptions.DomainExceptions;
 
 public class program {
 
 	public static void main(String[] args) {
 		
+		
+		Scanner sc = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
-			Scanner sc = new Scanner(System.in);
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			
 			System.out.print("Room number :");
 			int number = sc.nextInt();
 			System.out.print("Check-in date (dd/MM/yyy): ");
@@ -33,15 +34,19 @@ public class program {
 			checkOut = sdf.parse(sc.next());
 			
 			reservation.updateDates(checkIn, checkOut);
-			sc.close();
+			
 		}
 		catch (ParseException e) {
 			System.out.println("Invalid date format!");
 		}
-		catch (IllegalArgumentException e) {
+		catch (DomainExceptions e) {
 			System.out.println("Error in reservation : " + e.getMessage());
 		}
+		catch (RuntimeException e) {
+			System.out.println("Unexpected erro");
+		}
 		
+	sc.close();
 
 	}
 	
